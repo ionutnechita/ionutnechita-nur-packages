@@ -1,12 +1,12 @@
 { lib, stdenv, fetchFromGitHub, buildLinux, ... } @ args:
 
 let
-  modDirVersion = "6.1.25-sunlight1";
+  modDirVersion = "6.1.34-sunlight1";
   parts = lib.splitString "-" modDirVersion;
   version = lib.elemAt parts 0;
   suffix = lib.elemAt parts 1;
   extraVer = "";
-  hash = "sha256-NQRftyNF39YQHYMp5JA7dvoVGw3TUWGC6+zraNubeMc=";
+  hash = "sha256-SCVBlhahQOY843wzmhqBO2v0s3VAThGGJzFoxpyqKVE=";
 
   numbers = lib.splitString "." version;
   branch = "${lib.elemAt numbers 0}.${lib.elemAt numbers 1}";
@@ -59,6 +59,8 @@ buildLinux (args // rec {
       HZ_1000 = no;
 
       SCHEDSTATS = lib.mkOverride 60 yes;
+      HID = yes;
+      UHID = yes;
     };
 
     extraMeta = {
