@@ -1,7 +1,7 @@
 { lib, stdenv, fetchFromGitHub, buildLinux, ... } @ args:
 
 let
-  modDirVersion = "6.6.19-lowlatency-sunlight1";
+  modDirVersion = "6.8.1-lowlatency-sunlight1";
 
   parts = lib.splitString "-" modDirVersion;
 
@@ -14,7 +14,7 @@ let
 
   rev = "${version}-${flavour}-${suffix}";
 
-  hash = "sha256-/3IkTWMHwDaPV3Prhdtv6jNSpgxfaBrUVYa58iwozTk=";
+  hash = "sha256-aqh+k3Z7ecHcklTa1o1bC4h5JXVl5oB3bAqdJbgd9As=";
 in
 buildLinux (args // rec {
     inherit version modDirVersion;
@@ -24,6 +24,10 @@ buildLinux (args // rec {
       repo = "linux-sunlight";
       inherit rev hash;
     };
+
+    extraMakeFlags = [
+	"KBUILD_BUILD_VERSION_TIMESTAMP=SUNLIGHT"
+    ];
 
     structuredExtraConfig = with lib.kernel; {
       # Expert option for built-in default values.
@@ -44,10 +48,6 @@ buildLinux (args // rec {
       # Futex WAIT_MULTIPLE implementation for Wine / Proton Fsync.
       FUTEX = yes;
       FUTEX_PI = yes;
-
-      # Shiftfs.
-      SHIFT_FS = yes;
-      SHIFT_FS_POSIX_ACL = yes;
 
       # Preemptive Full Tickless Kernel at 858Hz.
       LATENCYTOP = yes;
@@ -72,6 +72,8 @@ buildLinux (args // rec {
       HID = yes;
       UHID = yes;
     };
+
+    ignoreConfigErrors = true;
 
     extraMeta = {
       inherit branch;
