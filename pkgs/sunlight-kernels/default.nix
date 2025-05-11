@@ -1,20 +1,21 @@
 { lib, stdenv, fetchFromGitHub, buildLinux, ... } @ args:
 
 let
-  modDirVersion = "6.12.11-lowlatency-sunlight1";
+  modDirVersion = "6.15.0-rc6-lowlatency-sunlight1";
 
   parts = lib.splitString "-" modDirVersion;
 
   version = lib.elemAt parts 0;
-  flavour = lib.elemAt parts 1;
-  suffix = lib.elemAt parts 2;
+  rc = lib.elemAt parts 1;
+  flavour = lib.elemAt parts 2;
+  suffix = lib.elemAt parts 3;
 
   numbers = lib.splitString "." version;
   branch = "${lib.elemAt numbers 0}.${lib.elemAt numbers 1}";
 
-  rev = "${version}-${flavour}-${suffix}";
+  rev = "${version}-${rc}-${flavour}-${suffix}";
 
-  hash = "sha256-zX1ZIqma2qRtdoF76ySWa0DgKftOiO7OqjHTszGLpYw=";
+  hash = "sha256-ISpddRbCD2LBE46fnef1BGb6uvo5KhB9KKchERXlvBM=";
 in
 buildLinux (args // rec {
     inherit version modDirVersion;
@@ -76,6 +77,7 @@ buildLinux (args // rec {
       UHID = yes;
 
       RUST = lib.mkForce no;
+      MOUSE_ELAN_I2C = lib.mkForce no;
       SECURITY_APPARMOR_RESTRICT_USERNS = lib.mkForce no;
     };
 
