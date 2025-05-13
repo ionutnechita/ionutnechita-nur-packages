@@ -77,7 +77,6 @@ buildLinux (args // rec {
       UHID = yes;
 
       RUST = lib.mkForce no;
-      SECURITY_APPARMOR_RESTRICT_USERNS = lib.mkForce no;
     };
 
     ignoreConfigErrors = true;
