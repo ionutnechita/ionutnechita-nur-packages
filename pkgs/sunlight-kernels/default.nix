@@ -1,7 +1,7 @@
 { lib, stdenv, fetchFromGitHub, buildLinux, ... } @ args:
 
 let
-  modDirVersion = "6.17.0-rc4-lowlatency-sunlight1";
+  modDirVersion = "6.17.0-rc5-lowlatency-sunlight1";
 
   parts = lib.splitString "-" modDirVersion;
 
@@ -15,7 +15,7 @@ let
 
   rev = "${version}-${iter}-${flavour}-${suffix}";
 
-  hash = "sha256-aAfZRUBUztQp3ITXGajPQE3FlQzXFqtOK+LRr4zfDpA=";
+  hash = "sha256-VJWRrBC6SitMJN92j4WjJ6X0j38YRIb0HvGnH/tXV3Y=";
 in
 buildLinux (args // rec {
     inherit version modDirVersion;
